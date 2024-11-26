@@ -4,19 +4,27 @@ import cookieParser from 'cookie-parser';
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
-app.get('/deck', (req, res)=>{
+
+app.get('/decks', (req, res)=>{
     console.log(req.cookies);
-    res.send(req.cookies)
+    //res.send(req.cookies);
+    //res.send(200);
+
+    res.status(200).json(Flashcards.jsonbyuser('username'));
+    
 });
 
-app.get('/deck/:did', (req, res)=>{
-    if(Flashcards.exists())
-    res.send(200).json(Flashcards.getbyid(req.query.did).json());
+app.get('/decks/:did', (req, res)=>{
+    if(Flashcards.exists(req.query.did)){
+        //TODO check user is correct, otherwise say they don't have access
+        res.status(200).json(Flashcards.getbyid(req.query.did).json());
+    }
+    res.status(400).send('Deck does not exist');
 });
 
 app.get('/logout', (req,res) =>{
     res.clearCookie('username');
-    res.send(200, 'cleared cookies')
+    res.send(200, 'cleared cookies');
 });
 
 app.get('/user', (req, res)=>{
@@ -24,7 +32,7 @@ app.get('/user', (req, res)=>{
         name: 'hi',
         uid: 1
     };
-    res.cookie("username", user).send(200);
+    res.cookie("username", user).end();
 });
 
 
