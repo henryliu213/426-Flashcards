@@ -1,25 +1,52 @@
 import express from 'express';
 import {Deck,Cards,Flashcards} from './Cards.js';
+import mysql from 'mysql2/promise';
 import cookieParser from 'cookie-parser';
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
 
-app.get('/decks', (req, res)=>{
-    console.log(req.cookies);
-    //res.send(req.cookies);
-    //res.send(200);
+let connection = await mysql.createConnection({
+    host: 'localhost',
+    user:'root',
+    password: 'dr4g0n123!',
+    database: 'flashcards'
+});
 
-    res.status(200).json(Flashcards.jsonbyuser('username'));
+app.get('/decks', async (req, res)=>{
+    //TOOD check if there are any cookies
+    if(!req.cookies.username || !req.cookies.username.uid){
+        return res.status(400).send("You must log in.");
+    }//i dont really think this is working
+    let uid = req.cookies.username.uid;
+
+    if(!uid){
+        return res.status(400).send("Missing user in cookies.");
+    }
+    try{
+        let [rows, fields] = await connection.execute('select * from decks d where uid = ?', [req.cookies.username.uid]);
+        if(rows.length === 0){
+            return res.status(404).send("There are no decks.");
+        }
+        console.log("decks: ");
+        console.log(rows);
+        res.status(200).json(rows[0]);
+    } catch (error){
+        res.status(400).send("Request invalid.");
+    }
     
 });
 
-app.get('/decks/:did', (req, res)=>{
-    if(Flashcards.exists(req.query.did)){
-        //TODO check user is correct, otherwise say they don't have access
-        res.status(200).json(Flashcards.getbyid(req.query.did).json());
+app.get('/decks/:did', async (req, res)=>{
+    try{
+        console.log("hi");
+        let [row, fields] = await connection.execute('select * from decks where did = ? and uid = ?', [req.query.did, req.cookies.username.uid]);
+        console.log("deckid: ");
+        console.log(row);
+        res.status(200).json(row);
+    } catch (error){
+        res.status(400).send("Request invalid.");
     }
-    res.status(400).send('Deck does not exist');
 });
 
 app.get('/logout', (req,res) =>{
