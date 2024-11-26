@@ -31,10 +31,15 @@ console.log(row)
 console.log('field is',field)
 // await connection.execute('insert into users (name) values (?)', ['username']);
 // await connection.execute('insert into decks(name, uid) values (?,?)', ['test',1]);
-// await connection.execute('insert into cards (front, back, did) values (?,?,?)',['hi','hello', 1]);
+// await connection.execute('insert into decks(name, uid) values (?,?)', ['test1',1]);
+// await connection.execute('insert into decks(name, uid) values (?,?)', ['test2',1]);
+// await connection.execute('insert into decks(name, uid) values (?,?)', ['test3',1]);
+
+
+//await connection.execute('insert into cards (front, back, did) values (?,?,?)',['hi','hello', 1]);
 //let [rowy, fieldy] = await connection.execute("select * from cards where cid = ?", [1]);
 let [rowy, fieldy] = await connection.execute("select * from cards");
-console.log('hi', rowy[0].back);
+console.log('hi', rowy[0]);
 
 
 
