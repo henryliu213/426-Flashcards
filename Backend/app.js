@@ -59,7 +59,7 @@ app.post('/decks', async(req,res)=>{
     let name = req.body.name;
     try{
         let a =await db.createDeck(name, uid);
-        res.status(200).send('created').json(a);
+        res.status(200).json(a);
         return;
     }
     catch{
@@ -80,6 +80,7 @@ app.post('/addtodeck', async(req, res)=>{
         res.status(400);
     }
     // await db.addCardstoDeck(1, arrofc )
+    
 
 });
 

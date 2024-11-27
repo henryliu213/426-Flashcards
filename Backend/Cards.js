@@ -51,14 +51,25 @@ export class db{
         await connection.execute('delete from decks where did = ?', [did]);
     }
 }
-console.log(await db.login('hello'));
-console.log(await db.createDeck('firstdeck', 1));
+// console.log(await db.login('hello'));
+// console.log(await db.createDeck('firstdeck', 1));
 let arrofc = [
-    {front: 'firstfront', back: 'firstback'},
-    {front: 'seond front', back: 'second back'},
-    {front: 'third front', back: 'third front'}
-]
+    {"front": "firstfront", "back": "firstback"},
+    {"front": "seond front", "back": "second bac"},
+    {"front": "third front", "back": "third front"}
+    ]
+
+// Input this into postman also match this format : 
+//{
+//     "listy":[
+//     {"front": "firstfront", "back": "firstback"},
+//     {"front": "seond front", "back": "second bac"},
+//     {"front": "third front", "back": "third front"}
+//     ],
+//     "did": 1
+// }
+
 // await db.addCardstoDeck(1, arrofc )
-await db.deleteDeck(1); // Deletes deck of did 1
+// await db.deleteDeck(1); // Deletes deck of did 1
 let [row,field] = await connection.execute('select * from decks');
 console.log(row);
