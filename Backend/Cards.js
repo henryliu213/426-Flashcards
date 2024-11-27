@@ -7,13 +7,7 @@ let connection = await mysql.createConnection({
 })
 
 export class db{
-    connection = mysql.createConnection({
-        host: 'localhost',
-        user:'root',
-        password: 'MyNewPass',
-        database: 'flashcards'
-    })
-    async getCard(cid){  //probs useless
+    static async getCard(cid){  //probs useless
         let [row, fields] = await connection.execute("select * from cards where cid = ?", [cid]); 
         let front = row[0]['front'];
         let back = row[0]['back'];
@@ -23,103 +17,48 @@ export class db{
         }
     }
 
-
-
-}
-export class Flashcards{
-    static decks = [];
-    static addDeck(deck){
-        Flashcards.decks.push(deck);
-    }
-    static deleteDeck(did){
-        Flashcards.decks = Flashcards.decks.filter((e)=> e.did != did);
-    }
-    static exists(did){
-        let a = false;
-        for (let decky of Flashcards.decks){
-            if (decky.did == did){
-                return a = true;
-            }
+    static async login(name){
+        if (!name){
+            return null;
         }
-        return a;
-    }
-    static getbyid(did){
-        for (let decky of Flashcards.decks){
-            if (decky.did == did){
-                return decky;
-            }
+        let [user, trash] =  await connection.execute("select name from users where name = ?", [name]); 
+        if (user[0]){
+            console.log('found user');
+            let [a,b] = await connection.execute('select uid from users where name = ?', [name]);
+            user[0]['uid'] = a[0].uid;
+            return user[0];
+        }else{
+            console.log("new user");
+            let [row, fields] = await connection.execute("insert into users (name) values (?)", [name]); 
+            [row, fields] = await connection.execute("select name, uid from users where name = ?", [name]);
+            return row[0];
         }
     }
 
-    static jsonbyuser(user){
-        let result = Flashcards.decks.filter((e)=>e.user == user);
-        return result;
+    static async createDeck(name, uid){ //TRANSACTION NECESSARY? rollback functionality? 
+        await connection.execute('insert into decks (name, uid) values(?, ?)', [name, uid]);
+        let did = await connection.execute('select did from decks where name = ?', [name]);
+        return did[0][0]['did'];
     }
-    static json(){
-        return {
-            decks: Flashcards.decks
+    static async addCardstoDeck(did, arrOfCards){
+        for (let ele of arrOfCards){
+            //ele needs front, back Make as JSON rn 
+            await connection.execute('insert into cards (did, front, back) values (?,?,?)', [did, ele['front'], ele['back']]);
         }
     }
-
-}
-
-export class Cards{
-    values;
-    cid;
-    static count = 0;
-    constructor(front, back){
-        this.values = [front,back];
-        this.id = Cards.count++;
-    }
-    json(){
-        return {
-            values: this.values,
-            cid: this.cid
-        }
+    
+    static async deleteDeck(did){
+        await connection.execute('delete from decks where did = ?', [did]);
     }
 }
-export class Deck{
-    cards = [];
-    name;
-    did;
-    user;
-    static count = 0;
-    constructor(cards, user, name){
-        this.cards = cards;
-        this.name = name;
-        this.user = user;
-        this.did = Deck.count++;
-    }  
-
-    get name(){
-        return this.name;
-    }
-    get cards(){
-        return [...this.cards];
-    }
-    get did(){
-        return this.did;
-    }
-    get user(){
-        return this.user;
-    }
-    json(){
-        return {
-            cards: this.cards,
-            name: this.name,
-            did: this.did,
-            user: this.user
-        }
-    }
-}
-
-
-let cardy = new Cards('hello',2);
-let decky = new Deck([cardy],'user', 'mydeck');
-let decky2 = new Deck([new Cards("poo", 'hi')], 'usr2', '2sdeck');
-Flashcards.addDeck(decky2);
-Flashcards.addDeck(decky);
-let res = Flashcards.json();
-console.log(Flashcards.jsonbyuser('usr2'));
-//console.log(res['decks'][0]['cards'][0]['values'][0]);
-
+console.log(await db.login('hello'));
+console.log(await db.createDeck('firstdeck', 1));
+let arrofc = [
+    {front: 'firstfront', back: 'firstback'},
+    {front: 'seond front', back: 'second back'},
+    {front: 'third front', back: 'third front'}
+]
+// await db.addCardstoDeck(1, arrofc )
+await db.deleteDeck(1); // Deletes deck of did 1
+let [row,field] = await connection.execute('select * from decks');
+console.log(row);

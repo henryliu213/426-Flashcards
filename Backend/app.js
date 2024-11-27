@@ -1,30 +1,36 @@
 import express from 'express';
-import {Deck,Cards,Flashcards} from './Cards.js';
+import {db} from './Cards.js';
 import mysql from 'mysql2/promise';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
-    password: 'dr4g0n123!',
+    password: 'MyNewPass',
     database: 'flashcards'
 });
 
 app.get('/decks', async (req, res)=>{
     //TOOD check if there are any cookies
     if(!req.cookies.username || !req.cookies.username.uid){
+        console.log(req.cookies.username)
+        console.log(req.cookies.username.uid)
         return res.status(400).send("You must log in.");
-    }//i dont really think this is working
+    }
     let uid = req.cookies.username.uid;
 
     if(!uid){
         return res.status(400).send("Missing user in cookies.");
     }
     try{
+        console.log('my uid is', req.cookies.username.uid);
         let [rows, fields] = await connection.execute('select * from decks d where uid = ?', [req.cookies.username.uid]);
+        console.log(rows);
         if(rows.length === 0){
             return res.status(404).send("There are no decks.");
         }
@@ -39,14 +45,30 @@ app.get('/decks', async (req, res)=>{
 
 app.get('/decks/:did', async (req, res)=>{
     try{
-        console.log("hi");
-        let [row, fields] = await connection.execute('select * from decks where did = ? and uid = ?', [req.query.did, req.cookies.username.uid]);
-        console.log("deckid: ");
-        console.log(row);
+        console.log('hello');
+        console.log(req.params.did);
+        let [row, fields] = await connection.execute('select cid, front, back from cards where did = ?', [req.params.did]);
         res.status(200).json(row);
     } catch (error){
         res.status(400).send("Request invalid.");
     }
+});
+
+app.post('/decks', async(req,res)=>{
+    let uid = req.cookies.username.uid;
+    let name = req.body.name;
+    try{
+        let a =await db.createDeck(name, uid);
+        res.status(200).send('created').json(a);
+    }
+    catch{
+        res.status(400).send('failed');
+    }
+    //await db.createDeck('firstdeck', 1);
+});
+
+app.post('/addtodeck', async(req, res)=>{
+    
 });
 
 app.get('/logout', (req,res) =>{
@@ -54,12 +76,14 @@ app.get('/logout', (req,res) =>{
     res.send(200, 'cleared cookies');
 });
 
-app.get('/user', (req, res)=>{
-    let user = {
-        name: 'hi',
-        uid: 1
-    };
-    res.cookie("username", user).end();
+app.get('/login', async (req, res)=>{
+    let name = req.body.name;
+    console.log('name is', name);
+    if (name){
+        let user = await db.login(name);
+        res.cookie("username", user).status(200).end();
+    }
+    
 });
 
 
