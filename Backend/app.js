@@ -60,6 +60,7 @@ app.post('/decks', async(req,res)=>{
     try{
         let a =await db.createDeck(name, uid);
         res.status(200).send('created').json(a);
+        return;
     }
     catch{
         res.status(400).send('failed');
@@ -68,7 +69,18 @@ app.post('/decks', async(req,res)=>{
 });
 
 app.post('/addtodeck', async(req, res)=>{
-    
+    let did = req.body.did;
+    let arrofcards =req.body.listy;
+    try{
+        db.addCardstoDeck(did, arrofcards);
+        res.status(200).send('added cards')
+        return;
+    }
+    catch{
+        res.status(400);
+    }
+    // await db.addCardstoDeck(1, arrofc )
+
 });
 
 app.get('/logout', (req,res) =>{
