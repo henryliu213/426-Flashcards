@@ -2,7 +2,7 @@ import mysql from "mysql2/promise"
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
-    password: 'MyNewPass',
+    password: 'dr4g0n123!',
     database: 'flashcards'
 })
 
@@ -49,6 +49,12 @@ export class db{
     
     static async deleteDeck(did){
         await connection.execute('delete from decks where did = ?', [did]);
+    }
+
+    static async getCards(did){
+        let cards = await connection.execute('select * from cards where did = ?', [did]);
+        console.log(cards);
+        return cards;
     }
 }
 // console.log(await db.login('hello'));

@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded())
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
-    password: 'MyNewPass',
+    password: 'dr4g0n123!',
     database: 'flashcards'
 });
 
@@ -45,10 +45,14 @@ app.get('/decks', async (req, res)=>{
 
 app.get('/decks/:did', async (req, res)=>{
     try{
-        let [rows, fields] = await connection.execute('select name from decks where did = ? and uid = ?', [req.params.did, req.cookies.username.uid]);
-        console.log("deck by id: ");
-        console.log(row);
-        res.status(200).json(row);
+        let [rows, fields] = await connection.execute('select name, did from decks where did = ? and uid = ?', [req.params.did, req.cookies.username.uid]);
+        // console.log("deck by id: ");
+        // console.log(rows);
+        let deckname = rows[0].name;
+        let did = rows[0].did;
+        let cards = await db.getCards(did);
+        // console.log(cards);
+        res.status(200).json(cards[0]);//returns array of cards in deck
     } catch (error){
         res.status(400).send("Request invalid.");
     }
