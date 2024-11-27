@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './card-comp.component.css'
 })
 export class CardCompComponent {
-
+  Front = 'hello';
 }

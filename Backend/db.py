@@ -7,7 +7,7 @@ cursor = db.cursor()
 
 
 
-#cursor.execute("Drop database flashcards")
+cursor.execute("Drop database flashcards")
 # cursor.execute("Show databases")
 # clist = [i for i in cursor.fetchall()] 
 # print(clist)
