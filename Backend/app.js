@@ -39,9 +39,8 @@ app.get('/decks', async (req, res)=>{
 
 app.get('/decks/:did', async (req, res)=>{
     try{
-        console.log("hi");
-        let [row, fields] = await connection.execute('select * from decks where did = ? and uid = ?', [req.query.did, req.cookies.username.uid]);
-        console.log("deckid: ");
+        let [rows, fields] = await connection.execute('select name from decks where did = ? and uid = ?', [req.params.did, req.cookies.username.uid]);
+        console.log("deck by id: ");
         console.log(row);
         res.status(200).json(row);
     } catch (error){
