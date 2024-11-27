@@ -59,7 +59,7 @@ let arrofc = [
     {"front": "third front", "back": "third front"}
     ]
 
-// Input this into postman also match this format : 
+// Input this into postman also match this format when postig : 
 //{
 //     "listy":[
 //     {"front": "firstfront", "back": "firstback"},
