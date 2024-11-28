@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded())
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
-    password: 'dr4g0n123!',
+    password: 'MyNewPass',
     database: 'flashcards'
 });
 
@@ -93,7 +93,7 @@ app.get('/logout', (req,res) =>{
     res.send(200, 'cleared cookies');
 });
 
-app.get('/login', async (req, res)=>{
+app.post('/login', async (req, res)=>{
     let name = req.body.name;
     console.log('name is', name);
     if (name){
