@@ -67,12 +67,12 @@ let arrofc = [
 
 // Input this into postman also match this format when postig : 
 //{
-//     "listy":[
-//     {"front": "firstfront", "back": "firstback"},
-//     {"front": "seond front", "back": "second bac"},
-//     {"front": "third front", "back": "third front"}
-//     ],
-//     "did": 1
+    // "listy":[
+    // {"front": "firstfront", "back": "firstback"},
+    // {"front": "seond front", "back": "second bac"},
+    // {"front": "third front", "back": "third front"}
+    // ],
+    // "did": 1
 // }
 
 // await db.addCardstoDeck(1, arrofc )

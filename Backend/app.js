@@ -36,7 +36,7 @@ app.get('/decks', async (req, res)=>{
         }
         console.log("decks: ");
         console.log(rows);
-        res.status(200).json(rows[0]);
+        res.status(200).json(rows);
     } catch (error){
         res.status(400).send("Request invalid.");
     }
