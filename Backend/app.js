@@ -100,7 +100,7 @@ app.post('/login', async (req, res)=>{
         let user = await db.login(name);
         res.cookie("username", user).status(200).end();
     }
-    
+
 });
 
 
