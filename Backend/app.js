@@ -3,11 +3,13 @@ import {db} from './Cards.js';
 import mysql from 'mysql2/promise';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
+app.use(cors());
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
@@ -17,9 +19,13 @@ let connection = await mysql.createConnection({
 
 app.get('/decks', async (req, res)=>{
     //TOOD check if there are any cookies
+    if (!req.cookies){
+        res.status(404).send('failed no cookie');
+        return;
+    }
     if(!req.cookies.username || !req.cookies.username.uid){
-        console.log(req.cookies.username)
-        console.log(req.cookies.username.uid)
+        // console.log(req.cookies.username)
+        // console.log(req.cookies.username.uid)
         return res.status(400).send("You must log in.");
     }
     let uid = req.cookies.username.uid;
@@ -59,6 +65,9 @@ app.get('/decks/:did', async (req, res)=>{
 });
 
 app.post('/decks', async(req,res)=>{
+    if (!req.cookies.username){
+        res.status(404).send('failed no cookie');
+    }
     let uid = req.cookies.username.uid;
     let name = req.body.name;
     try{
