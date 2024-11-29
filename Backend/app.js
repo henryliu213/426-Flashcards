@@ -4,18 +4,42 @@ import mysql from 'mysql2/promise';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import session from 'express-session'
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:4200', // Replace with your Angular app's origin
+    credentials: true,
+}));
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
     password: 'MyNewPass',
     database: 'flashcards'
 });
+
+
+const sessionConfig = {
+  secret: 'MYSECRET',
+  name: 'appName',
+  resave: false,    
+  saveUninitialized: false,
+  cookie : {
+    sameSite: 'none', // THIS is the config you are looking for.
+  }
+};
+
+// if (process.env.NODE_ENV === 'production') {
+//   app.set('trust proxy', 1); // trust first proxy
+//   sessionConfig.cookie.secure = true; // serve secure cookies
+// }
+
+app.use(session(sessionConfig))
+
+
 
 app.get('/decks', async (req, res)=>{
     //TOOD check if there are any cookies
@@ -107,7 +131,11 @@ app.post('/login', async (req, res)=>{
     console.log('name is', name);
     if (name){
         let user = await db.login(name);
-        res.cookie("username", user).status(200).end();
+        res.cookie("username", user, {
+            sameSite: 'None',
+            secure: true, 
+            path: '/'
+        }).status(200).end();
     }
     
 });

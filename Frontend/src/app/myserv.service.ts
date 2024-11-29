@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,16 +11,36 @@ import { Observable } from 'rxjs';
 export class MyservService {
 
   constructor(private http: HttpClient) { }
+  options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      // You can add custom headers here if needed
+    }),
+    withCredentials: true  // Important to send cookies with cross-origin requests
+  };
+
+
   getDecks(){
-    return this.http.get("http://localhost:3000/decks");
+    console.log('hello');
+    return this.http.get("http://localhost:3000/decks", {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+  });
   }
   getDeckById(did: number){
     let urly = "http://localhost:3000/decks/"+ did;
-    return this.http.get(urly);
+    return this.http.get(urly, this.options);
   }
   login(namey: string){
       return this.http.post("http://localhost:3000/login", {
-        name: namey
+        name: namey,
+      },{
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        }),
+        withCredentials: true
       })
   }
   logout(){
@@ -27,7 +49,8 @@ export class MyservService {
   createDeck(namey: string){
     return this.http.post("http://localhost:3000/decks",
       {
-        name: namey
+        name: namey,
+        withCredentials: true
       }
     )
   }
@@ -36,7 +59,7 @@ export class MyservService {
       listy: listier,
       did: didy
     }
-    return this.http.post("http://localhost:3000/addtodeck",res);    
+    return this.http.post("http://localhost:3000/addtodeck",res, this.options);    
   }
   //  {"listy":[
   //       {"front": "firstfront", "back": "firstback"},
