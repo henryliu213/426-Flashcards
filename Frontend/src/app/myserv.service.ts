@@ -11,13 +11,13 @@ import { Observable } from 'rxjs';
 export class MyservService {
 
   constructor(private http: HttpClient) { }
-  options = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      // You can add custom headers here if needed
-    }),
-    withCredentials: true  // Important to send cookies with cross-origin requests
-  };
+  // options = {
+  //   headers: new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     // You can add custom headers here if needed
+  //   }),
+  //   withCredentials: true  // Important to send cookies with cross-origin requests
+  // };
 
 
   getDecks(){
@@ -31,7 +31,12 @@ export class MyservService {
   }
   getDeckById(did: number){
     let urly = "http://localhost:3000/decks/"+ did;
-    return this.http.get(urly, this.options);
+    return this.http.get(urly, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    });
   }
   login(namey: string){
       return this.http.post("http://localhost:3000/login", {
@@ -44,13 +49,23 @@ export class MyservService {
       })
   }
   logout(){
-    return this.http.get("http://localhost:3000/logout");
+    return this.http.get("http://localhost:3000/logout",{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    });
   }
   createDeck(namey: string){
     return this.http.post("http://localhost:3000/decks",
       {
         name: namey,
-        withCredentials: true
+      },{
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
       }
     )
   }
@@ -59,7 +74,13 @@ export class MyservService {
       listy: listier,
       did: didy
     }
-    return this.http.post("http://localhost:3000/addtodeck",res, this.options);    
+    return this.http.post("http://localhost:3000/addtodeck",res, {
+
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    });    
   }
   //  {"listy":[
   //       {"front": "firstfront", "back": "firstback"},

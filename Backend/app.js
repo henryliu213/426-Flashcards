@@ -131,11 +131,14 @@ app.post('/login', async (req, res)=>{
     console.log('name is', name);
     if (name){
         let user = await db.login(name);
+        console.log(user);
         res.cookie("username", user, {
             sameSite: 'None',
             secure: true, 
             path: '/'
         }).status(200).end();
+
+
     }
     
 });

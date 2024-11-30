@@ -31,6 +31,20 @@ export class db{
             console.log("new user");
             let [row, fields] = await connection.execute("insert into users (name) values (?)", [name]); 
             [row, fields] = await connection.execute("select name, uid from users where name = ?", [name]);
+            console.log(row[0].uid);
+            let id = await db.createDeck(name + "'s first deck", row[0].uid);
+            let response = await fetch("https://api.api-ninjas.com/v1/riddles",{
+                headers: {
+                    'X-Api-Key': "V8Mv700l46Hhksx9ly/Gow==09prbOcAETgB7OmC"
+                }
+            })
+            let result = await response.json();
+            console.log('result question is', result[0].question)
+            let card = {
+                front: result[0].question,
+                back: result[0].answer
+            }
+            await db.addCardstoDeck(id, [card]);
             return row[0];
         }
     }
@@ -79,3 +93,5 @@ let arrofc = [
 // await db.deleteDeck(1); // Deletes deck of did 1
 let [row,field] = await connection.execute('select * from decks');
 console.log(row);
+
+await db.login('asdf');
