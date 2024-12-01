@@ -14,7 +14,6 @@ export class LoginViewComponent {
   constructor(private myserv: MyservService, private controller: ControllerService){}
 
   async submitusername(namey: string){
-    console.log(namey);
     let a;
     try{
       this.myserv.login(namey).subscribe({
@@ -42,8 +41,6 @@ export class LoginViewComponent {
       // })
       // let a= await fetch("http://localhost:3000/decks");
       // a = await a.json();
-      console.log('hi', a);
-      console.log('yay');
     }catch{
       console.log('yikes');
     }

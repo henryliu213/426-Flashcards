@@ -12,7 +12,6 @@ export class DeckyComponent {
   constructor(private controller: ControllerService){}
   @Input() obj = {name: '', did:0}; 
   handleClick(){
-    // console.log(this.obj.did);
     this.controller.setdid(this.obj.did);
     this.controller.setState('cards');
     

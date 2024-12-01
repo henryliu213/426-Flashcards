@@ -1,1 +1,5 @@
 <app-decky *ngFor = "let obj of bigman" [obj] = "obj"></app-decky>
+<div>
+    <p>Add Deck!/p>
+    <input #name type = 'text' (keyup.enter) = "createDeck(name.value)">
+</div>

@@ -21,7 +21,6 @@ export class MyservService {
 
 
   getDecks(){
-    console.log('hello');
     return this.http.get("http://localhost:3000/decks", {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

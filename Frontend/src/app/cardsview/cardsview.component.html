@@ -1,3 +1,23 @@
 <app-card-comp *ngFor=" let ele of cardsbigman" [front] = 'ele.front' [back] = 'ele.back' > 
 
 </app-card-comp>
+
+<div class="add-cards-form" [formGroup]="form">
+    <ng-container formArrayName="this.seenewCards" >
+        <ng-container *ngFor="let cardform of seenewCards.controls; let i = index">
+            <div class="card-form-row" [formGroup]="ncardform">
+                    <input formControlName="front" placeholder="input front of card">
+                    <input formControlName="back" placeholder="input back of card">
+                <button class="delete-btn" (click)="deleteaddCard(i)">
+                    delete_forever</button>
+            </div>
+        </ng-container>
+    </ng-container>
+  
+    <button (click)="addCard()">
+        <button class="add-card-btn">add</button>
+    </button>
+    <button (click) = "submit()">Submit</button>
+
+</div>
+
