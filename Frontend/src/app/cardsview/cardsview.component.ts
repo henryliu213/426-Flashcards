@@ -13,14 +13,17 @@ import { first } from 'rxjs';
   templateUrl: './cardsview.component.html',
   styleUrl: './cardsview.component.css'
 })
+
+
 export class CardsviewComponent {
   cardsbigman: any;
-  ncardform: any;
-  form = this.fb.group({
-    newCards: this.fb.array(
-      [
-      ]
-    )
+  myForm = this.fb.group({
+    addedCards: this.fb.array([this.fb.group(
+      {
+        front: ["", Validators.required],
+        back: ["", Validators.required]
+      }
+    )])
 });
 
   constructor(private controller:ControllerService, private serv: MyservService, private fb: FormBuilder){};
@@ -33,25 +36,27 @@ export class CardsviewComponent {
     })
   }
 
-  get seenewCards(){
-    return this.form.controls['newCards'] as FormArray;
+  get addedCards(){
+    return this.myForm.get('addedCards') as FormArray;
   }
 
-  addCard(){
-    this.ncardform = this.fb.group({
-      front: ['', Validators.required],
-      back: ['', Validators.required]
-    })
-    this.seenewCards.push(this.ncardform);
+  addSlot(){
+    this.addedCards.push(
+      this.fb.group(
+        {
+          front: ["", Validators.required],
+          back: ["", Validators.required]
+        }
+      )
+    );
   }
 
   deleteaddCard(index: number){
-    this.seenewCards.removeAt(index);
+    this.addedCards.removeAt(index);
   }
 
   submit(){
-    let firstControl = this.seenewCards.get(['list', 0]);
-    console.log(firstControl);
+    console.log('hello');
   }
 
 

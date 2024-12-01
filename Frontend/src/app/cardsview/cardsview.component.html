@@ -2,7 +2,7 @@
 
 </app-card-comp>
 
-<div class="add-cards-form" [formGroup]="form">
+<!-- <div class="add-cards-form" [formGroup]="form">
     <ng-container formArrayName="this.seenewCards" >
         <ng-container *ngFor="let cardform of seenewCards.controls; let i = index">
             <div class="card-form-row" [formGroup]="ncardform">
@@ -19,5 +19,20 @@
     </button>
     <button (click) = "submit()">Submit</button>
 
-</div>
+</div> -->
+<div formArrayName="addedCards">
+    <button type="button" (click)="addSlot()">+ Add another card</button>
+    <!-- Each one below is a formgroup -->
+    <div *ngFor="let cardy of addedCards.controls; let i=index">
+        <div [formGroupName] = 'i'> 
+            <label for="cardy-{{ i }}">front:</label>
+            <input id="cardy-{{ i }}" type="text" formControlName="front">
+            <label for="cardy-{{ i }}">back:</label>
+            <input id="cardy-{{ i }}" type="text" formControlName="back">
+        </div>
+      
 
+      <button class="delete-btn" (click)="deleteaddCard(i)">
+        delete_forever</button>
+    </div>
+</div>
