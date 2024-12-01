@@ -5,7 +5,6 @@ import { MyservService } from '../myserv.service';
 import { CardCompComponent } from '../card-comp/card-comp.component';
 import { FormArray, FormBuilder, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { first } from 'rxjs';
 @Component({
   selector: 'app-cardsview',
   standalone: true,
