@@ -38,8 +38,8 @@ console.log('field is',field)
 
 // await connection.execute('insert into cards (front, back, did) values (?,?,?)',['hi','hello', 1]);
 //let [rowy, fieldy] = await connection.execute("select * from cards where cid = ?", [1]);
-let [rowy, fieldy] = await connection.execute("select * from decks");
-console.log('hi', rowy[0]);
+let [rowy, fieldy] = await connection.execute("select * from cards");
+console.log('hi', rowy);
 
 
 

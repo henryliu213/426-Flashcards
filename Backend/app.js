@@ -103,7 +103,7 @@ app.post('/addtodeck', async(req, res)=>{
     let arrofcards =req.body.listy;
     try{
         db.addCardstoDeck(did, arrofcards);
-        res.status(200).send('added cards')
+        res.status(200);
         return;
     }
     catch{
@@ -116,7 +116,7 @@ app.post('/addtodeck', async(req, res)=>{
 
 app.get('/logout', (req,res) =>{
     res.clearCookie('username');
-    res.send(200, 'cleared cookies');
+    return;
 });
 
 app.post('/login', async (req, res)=>{
