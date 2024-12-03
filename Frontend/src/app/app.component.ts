@@ -8,12 +8,12 @@ import { ListdecksviewComponent } from './listdecksview/listdecksview.component'
 import { HttpClientModule } from '@angular/common/http';
 import { ControllerService } from './controller.service';
 import { FormBuilder } from '@angular/forms';
-
+import { EditDeckComponent } from './edit-deck/edit-deck.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CardCompComponent, LoginViewComponent, CardsviewComponent, ListdecksviewComponent, NgIf, HttpClientModule],
+  imports: [RouterOutlet, CardCompComponent, LoginViewComponent, CardsviewComponent, ListdecksviewComponent, NgIf, HttpClientModule, EditDeckComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -31,5 +31,8 @@ export class AppComponent {
   }
   isCards(){
     return this.controller.getstate() == 'cards';
+  }
+  isEdit(){
+    return this.controller.getstate() == 'edit';
   }
 }

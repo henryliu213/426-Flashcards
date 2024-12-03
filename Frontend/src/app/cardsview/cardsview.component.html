@@ -20,19 +20,9 @@
     <button (click) = "submit()">Submit</button>
 
 </div> -->
-<div [formGroup]="myForm">
-    <!-- Each one below is a formgroup -->
-     <ng-container formArrayName = 'addedCards'>
-        <ng-container *ngFor="let currentSlot of addedCards.controls; let i=index">
-            <div [formGroupName] = 'i'> 
-                <input  type="text" formControlName="front" >
-                <input  type="text" formControlName="back">
-                <button class="delete-btn" (click)="deleteaddCard(i)">  Delete </button>
-            </div>
-    
-        </ng-container>
-     </ng-container>  
-    <button type="button" (click)="addSlot()">+ Add another card</button>
-</div>
-<button (click) = "submit()">Submit</button>
+
+
+<button (click) = 'edit()'>Add Cards</button>
+<button (click) = 'back()'> Back   </button>
+
 

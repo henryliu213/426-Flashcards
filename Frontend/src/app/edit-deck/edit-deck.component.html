@@ -1,0 +1,16 @@
+
+<div [formGroup]="myForm" (ngSubmit) = 'submit()'>
+    <!-- Each one below is a formgroup -->
+     <div formArrayName = 'addedCards'>
+        <div *ngFor="let currentSlot of addedCards.controls; let i=index">
+            <div [formGroupName] = 'i'> 
+                <input  type="text" formControlName="front" >
+                <input  type="text" formControlName="back">
+                <button class="delete-btn" (click)="deleteaddCard(i)">  Delete </button>
+            </div>
+    
+        </div>
+    </div>  
+    <button type="button" (click)="addSlot()">+ Add another card</button>
+</div>
+<button (click) = "submit()">Submit</button>
