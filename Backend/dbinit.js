@@ -12,15 +12,15 @@ await connection.execute(`CREATE TABLE if not exists users(
                             )`);
 await connection.execute(`CREATE TABLE if not exists decks(
                             did int not null auto_increment,
-                            name varchar(255) not null unique, 
+                            name varchar(255) not null, 
                             uid int not null, 
                             foreign key (uid) references users(uid),
                             primary key (did)
                             )`);
 await connection.execute(`CREATE TABLE if not exists cards(
                             cid int not null auto_increment,
-                            front varchar(255) not null, 
-                            back varchar(255) not null,
+                            front varchar(1000) not null, 
+                            back varchar(1000) not null,
                             did int,
                             foreign key(did) references decks(did) on delete cascade,
                             primary key (cid)
@@ -38,8 +38,8 @@ console.log('field is',field)
 
 // await connection.execute('insert into cards (front, back, did) values (?,?,?)',['hi','hello', 1]);
 //let [rowy, fieldy] = await connection.execute("select * from cards where cid = ?", [1]);
-let [rowy, fieldy] = await connection.execute("select * from decks");
-console.log('hi', rowy[0]);
+let [rowy, fieldy] = await connection.execute("select * from cards");
+console.log('hi', rowy);
 
 
 

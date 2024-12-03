@@ -2,6 +2,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { Component,input } from '@angular/core';
 import { stringify } from 'querystring';
 import { MyservService } from '../myserv.service';
+import { ControllerService } from '../controller.service';
 @Component({
   selector: 'app-login-view',
   standalone: true,
@@ -10,10 +11,9 @@ import { MyservService } from '../myserv.service';
   styleUrl: './login-view.component.css'
 })
 export class LoginViewComponent {
-  constructor(private myserv: MyservService){}
+  constructor(private myserv: MyservService, private controller: ControllerService){}
 
   async submitusername(namey: string){
-    console.log(namey);
     let a;
     try{
       this.myserv.login(namey).subscribe({
@@ -24,7 +24,11 @@ export class LoginViewComponent {
           this.myserv.getDecks().subscribe({
             next: value=> a = value,
             error: err => console.log('failed yucky stinky'),
-            complete: ()=>console.log('Observable emitted the complete notification')
+            complete: ()=>{
+              console.log('completed');
+              this.controller.setState("decks");
+            }
+
           });
         }
       });
@@ -37,8 +41,6 @@ export class LoginViewComponent {
       // })
       // let a= await fetch("http://localhost:3000/decks");
       // a = await a.json();
-      console.log('hi', a);
-      console.log('yay');
     }catch{
       console.log('yikes');
     }

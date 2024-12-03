@@ -18,8 +18,7 @@ let connection = await mysql.createConnection({
 app.get('/decks', async (req, res)=>{
     //TOOD check if there are any cookies
     if(!req.cookies.username || !req.cookies.username.uid){
-        console.log(req.cookies.username)
-        console.log(req.cookies.username.uid)
+        
         return res.status(400).send("You must log in.");
     }
     let uid = req.cookies.username.uid;
@@ -28,14 +27,11 @@ app.get('/decks', async (req, res)=>{
         return res.status(400).send("Missing user in cookies.");
     }
     try{
-        console.log('my uid is', req.cookies.username.uid);
         let [rows, fields] = await connection.execute('select * from decks d where uid = ?', [req.cookies.username.uid]);
-        console.log(rows);
         if(rows.length === 0){
             return res.status(404).send("There are no decks.");
         }
-        console.log("decks: ");
-        console.log(rows);
+       
         res.status(200).json(rows);
     } catch (error){
         res.status(400).send("Request invalid.");
@@ -46,12 +42,9 @@ app.get('/decks', async (req, res)=>{
 app.get('/decks/:did', async (req, res)=>{
     try{
         let [rows, fields] = await connection.execute('select name, did from decks where did = ? and uid = ?', [req.params.did, req.cookies.username.uid]);
-        // console.log("deck by id: ");
-        // console.log(rows);
         let deckname = rows[0].name;
         let did = rows[0].did;
         let cards = await db.getCards(did);
-        // console.log(cards);
         res.status(200).json(cards[0]);//returns array of cards in deck
     } catch (error){
         res.status(400).send("Request invalid.");
@@ -76,12 +69,12 @@ app.post('/addtodeck', async(req, res)=>{
     let did = req.body.did;
     let arrofcards =req.body.listy;
     try{
-        db.addCardstoDeck(did, arrofcards);
-        res.status(200).send('added cards')
+        let a = await db.addCardstoDeck(did, arrofcards);
+        res.status(201).json(a);
         return;
     }
     catch{
-        res.status(400);
+        res.status(400).send('failed');
     }
     // await db.addCardstoDeck(1, arrofc )
     
@@ -90,15 +83,20 @@ app.post('/addtodeck', async(req, res)=>{
 
 app.get('/logout', (req,res) =>{
     res.clearCookie('username');
-    res.send(200, 'cleared cookies');
+    return;
 });
 
 app.post('/login', async (req, res)=>{
     let name = req.body.name;
-    console.log('name is', name);
     if (name){
         let user = await db.login(name);
-        res.cookie("username", user).status(200).end();
+        res.cookie("username", user, {
+            sameSite: 'None',
+            secure: true, 
+            path: '/'
+        }).status(200).end();
+
+
     }
 
 });

@@ -1,0 +1,11 @@
+.box{
+    border-style: solid;
+    border-color:darkseagreen;
+    border-width: 3px;
+    width: 200px;
+    background-color: blanchedalmond;
+    margin: auto;
+}
+div{
+    text-align: center;
+}

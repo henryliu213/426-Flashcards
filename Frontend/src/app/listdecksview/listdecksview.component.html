@@ -1,1 +1,11 @@
-<p>listdecksview works!</p>
+
+<div class ='padding'> </div>
+<h3>Decks:</h3>
+<app-decky *ngFor = "let obj of bigman" [obj] = "obj"></app-decky>
+<br>
+<div>
+    Add Deck!
+    <input #name type = 'text' (keyup.enter) = "createDeck(name.value)">
+</div>
+
+<button (click) = 'logout()'>Logout</button>
