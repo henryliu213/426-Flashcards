@@ -3,6 +3,7 @@
     height: 300px;
     width: 200px;
     perspective: 1000px;
+    margin: 3px;
 }
 .cardinner{
     position: relative;

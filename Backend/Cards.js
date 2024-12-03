@@ -69,6 +69,9 @@ export class db{
             //ele needs front, back Make as JSON rn 
             await connection.execute('insert into cards (did, front, back) values (?,?,?)', [did, ele['front'], ele['back']]);
         }
+        return {
+            yay: 'yes'
+        }
     }
     
     static async deleteDeck(did){

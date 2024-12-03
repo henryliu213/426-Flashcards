@@ -102,12 +102,12 @@ app.post('/addtodeck', async(req, res)=>{
     let did = req.body.did;
     let arrofcards =req.body.listy;
     try{
-        db.addCardstoDeck(did, arrofcards);
-        res.status(200);
+        let a = await db.addCardstoDeck(did, arrofcards);
+        res.status(201).json(a);
         return;
     }
     catch{
-        res.status(400);
+        res.status(400).send('failed');
     }
     // await db.addCardstoDeck(1, arrofc )
     

@@ -68,7 +68,7 @@ export class MyservService {
       }
     )
   }
-  addCardstoDeck(listier: {front: string, back: string}[],didy:number ){
+  addCardstoDeck(listier: {front: string, back: string}[],didy:number ) :Observable<any> {
     let res = {
       listy: listier,
       did: didy

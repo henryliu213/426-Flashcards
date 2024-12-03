@@ -8,6 +8,7 @@ import { FormArray } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CardsviewComponent } from '../cardsview/cardsview.component';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-edit-deck',
   standalone: true,
@@ -51,10 +52,9 @@ export class EditDeckComponent {
     this.addedCards.removeAt(index);
   }
 
-  submit(){
+  async submit(){
     console.log('hello');
     let listy = this.addedCards as FormArray;
-    let val = listy.at(0).get('front')?.value;
     console.log(listy.length);
     let arr = [];
     let len = listy.length;
@@ -67,15 +67,28 @@ export class EditDeckComponent {
       );
     }
     console.log(arr);
-    this.serv.addCardstoDeck(arr, this.did).subscribe(
-      {
-        complete: ()=>{
-          this.controller.setState('cards');
+    try{
+      this.serv.addCardstoDeck(arr, this.did).subscribe(
+        {
+          next:()=> this.controller.setState('cards'), 
+          error: () => console.log('error'),
+          complete: ()=>{
+            this.change.detectChanges();
+          }
         }
-      }
-
-    );
-    this.controller.setState('cards');
-
+  
+      );
+      // this.serv.addCardstoDeck(arr, this.did).subscribe();
+      // this.controller.setState('cards');
+      // console.log('hi');
+    }
+    catch{
+      console.log('failed');
+    }
+    finally{
+      // this.change.detectChanges();
+      // this.controller.setState('cards');
+      // this.change.detectChanges();
+    }
   }
 }

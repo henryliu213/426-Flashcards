@@ -1,6 +1,10 @@
+
+<div class ='padding'> </div>
+<h3>Decks:</h3>
 <app-decky *ngFor = "let obj of bigman" [obj] = "obj"></app-decky>
+<br>
 <div>
-    <p>Add Deck!/p>
+    Add Deck!
     <input #name type = 'text' (keyup.enter) = "createDeck(name.value)">
 </div>
 
