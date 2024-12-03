@@ -1,9 +1,10 @@
-<button (click) = 'edit()'>Add Cards</button>
-<button (click) = 'back()'> Back   </button>
+<div class = 'padding'></div>
 
 <div class = 'holder'>
     <app-card-comp *ngFor=" let ele of cardsbigman" [front] = 'ele.front' [back] = 'ele.back' > 
     </app-card-comp>
 </div>
-
+<br>
+<button (click) = 'edit()'>Add Cards</button>
+<button (click) = 'back()'> Back   </button>
 

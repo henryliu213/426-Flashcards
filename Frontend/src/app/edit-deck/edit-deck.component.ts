@@ -32,6 +32,9 @@ export class EditDeckComponent {
     this.did = this.controller.getdid();
     
   }
+  back(){
+    this.controller.setState('cards');
+  }
 
   get addedCards(){
     return this.myForm.get('addedCards') as FormArray;

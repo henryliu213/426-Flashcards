@@ -1,4 +1,4 @@
-
+<div class = 'padding'></div>
 <div [formGroup]="myForm" (ngSubmit) = 'submit()'>
     <!-- Each one below is a formgroup -->
      <div formArrayName = 'addedCards'>
@@ -14,3 +14,4 @@
     <button type="button" (click)="addSlot()">+ Add another card</button>
 </div>
 <button (click) = "submit()">Submit</button>
+<button (click) = 'back()'>Go back</button>

@@ -1,4 +1,6 @@
-
+.padding{
+    height: 50px;
+}
 .holder{
     display: grid;
     column-gap: 0px;
