@@ -18,7 +18,7 @@ app.use(cors({
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
-    password: 'dr4g0n123!',
+    password: 'MyNewPass',
     database: 'flashcards'
 });
 

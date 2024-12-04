@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise'
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',
-    password: 'dr4g0n123!',
+    password: 'MyNewPass',
     database: 'flashcards'
 })
 await connection.execute(`CREATE TABLE if not exists users(
