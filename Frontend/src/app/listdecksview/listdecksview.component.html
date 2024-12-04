@@ -4,7 +4,7 @@
 <app-decky *ngFor = "let obj of bigman" [obj] = "obj"></app-decky>
 <br>
 <div>
-    Add Deck!
+    Add Deck:
     <input #name type = 'text' (keyup.enter) = "createDeck(name.value)">
 </div>
 

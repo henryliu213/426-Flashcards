@@ -3,8 +3,13 @@
 }
 .whole{
     background-color: #e9cdfa;
+    color: purple;
     height: 1000px;
     width: 100%;
     vertical-align: middle;
     text-align: center;
+    font-family: Copperplate, monospace;
+}
+button{
+    color:purple;
 }

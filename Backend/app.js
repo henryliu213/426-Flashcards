@@ -3,11 +3,18 @@ import {db} from './Cards.js';
 import mysql from 'mysql2/promise';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import cors from 'cors';//here
 const app = express();
 const PORT = 3000;
+
 app.use(cookieParser());
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cors({
+    origin: 'http://localhost:4200',
+    credentials: true
+}));//here
+
 let connection = await mysql.createConnection({
     host: 'localhost',
     user:'root',

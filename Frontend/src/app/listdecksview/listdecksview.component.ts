@@ -26,7 +26,7 @@ export class ListdecksviewComponent {
         next: ()=>{this.serv.getDecks().subscribe({
           next: value => this.bigman = value
         })
-        console.log('big man updated!');
+        // console.log('big man updated!');
       } 
       });
     }

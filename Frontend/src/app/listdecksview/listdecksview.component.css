@@ -1,3 +1,9 @@
 .padding{
     height:250px;
 }
+button{
+    color:purple;
+}
+h3{
+    text-shadow: 5px 5px 0px darkseagreen;
+}

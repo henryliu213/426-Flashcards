@@ -1,10 +1,13 @@
 .box{
-    border-style: solid;
-    border-color:darkseagreen;
-    border-width: 3px;
     width: 200px;
-    background-color: blanchedalmond;
-    margin: auto;
+    background-color: darkseagreen;
+    margin: 3px auto;
+    color: purple;
+}
+.box:hover{
+    border-style: solid;
+    border-color: purple;
+    border-width: 3px;
 }
 div{
     text-align: center;
