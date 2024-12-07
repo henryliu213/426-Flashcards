@@ -11,15 +11,6 @@ import { Observable } from 'rxjs';
 export class MyservService {
 
   constructor(private http: HttpClient) { }
-  // options = {
-  //   headers: new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     // You can add custom headers here if needed
-  //   }),
-  //   withCredentials: true  // Important to send cookies with cross-origin requests
-  // };
-
-
   getDecks(){
     return this.http.get("http://localhost:3000/decks", {
       headers: new HttpHeaders({
